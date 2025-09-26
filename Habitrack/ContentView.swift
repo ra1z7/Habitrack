@@ -13,11 +13,16 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List(tracker.habits, id: \.self) { habit in
-                VStack(alignment: .leading) {
-                    Text(habit.title)
-                        .font(.headline)
-                    Text(habit.description)
+            List(tracker.habits) { habit in
+                NavigationLink(value: habit) {
+                    HStack {
+                        Text("\(habit.completition)")
+                        VStack(alignment: .leading) {
+                            Text(habit.title)
+                                .font(.headline)
+                            Text(habit.description)
+                        }
+                    }
                 }
             }
             .navigationTitle("Habitrack")
@@ -32,6 +37,9 @@ struct ContentView: View {
                 NavigationStack {
                     AddNewHabit(in: tracker)
                 }
+            }
+            .navigationDestination(for: Habit.self) { selectedHabit in
+                HabitDetailView(for: selectedHabit)
             }
         }
     }
