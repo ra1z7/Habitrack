@@ -8,14 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var tracker = HabitStore(fillWithSamples: true)
+    @State private var showingAddView = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(tracker.habits, id: \.self) { habit in
+                VStack(alignment: .leading) {
+                    Text(habit.title)
+                        .font(.headline)
+                    Text(habit.description)
+                }
+            }
+            .navigationTitle("Habitrack")
+            .toolbar {
+                Button {
+                    showingAddView = true
+                } label: {
+                    Label("Add New Habit", systemImage: "plus")
+                }
+            }
+            .sheet(isPresented: $showingAddView) {
+                NavigationStack {
+                    AddNewHabit(in: tracker)
+                }
+            }
         }
-        .padding()
     }
 }
 
