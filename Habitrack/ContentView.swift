@@ -10,17 +10,21 @@ import SwiftUI
 struct ContentView: View {
     @State private var tracker = HabitStore(fillWithSamples: true)
     @State private var showingAddView = false
-    
+        
     var body: some View {
         NavigationStack {
             List(tracker.habits) { habit in
                 NavigationLink(value: habit) {
-                    HStack {
-                        Text("\(habit.completition)")
+                    HStack(spacing: 15) {
+                        CompletionCountView(for: habit.completition)
+                        
                         VStack(alignment: .leading) {
                             Text(habit.title)
                                 .font(.headline)
                             Text(habit.description)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
                         }
                     }
                 }
@@ -32,6 +36,7 @@ struct ContentView: View {
                 } label: {
                     Label("Add New Habit", systemImage: "plus")
                 }
+                .tint(.blue)
             }
             .sheet(isPresented: $showingAddView) {
                 NavigationStack {
