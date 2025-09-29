@@ -8,8 +8,8 @@
 import Foundation
 
 @Observable
-class Habit: Hashable, Identifiable {
-    let id = UUID()
+class Habit: Codable, Hashable, Identifiable {
+    var id = UUID()
     let title: String
     let description: String
     var completition = 0

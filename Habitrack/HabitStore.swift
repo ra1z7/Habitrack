@@ -9,9 +9,24 @@ import Foundation
 
 @Observable
 class HabitStore {
-    var habits: [Habit]
+    private let storageKey = "Habits"
+
+    var habits: [Habit] {
+        didSet {
+            if let encodedData = try? JSONEncoder().encode(habits) {
+                UserDefaults.standard.set(encodedData, forKey: storageKey)
+            }
+        }
+    }
     
     init(fillWithSamples: Bool = false) {
+        if let savedData = UserDefaults.standard.data(forKey: storageKey) {
+            if let decodedData = try? JSONDecoder().decode([Habit].self, from: savedData) {
+                habits = decodedData
+                return
+            }
+        }
+        
         if fillWithSamples {
             self.habits = Habit.samples
         } else {
