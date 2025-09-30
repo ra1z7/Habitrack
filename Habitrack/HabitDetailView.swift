@@ -31,10 +31,13 @@ struct HabitDetailView: View {
     }
     
     var body: some View {
+        let colorName = randomColor
+        
         VStack(spacing: 20) {
             ZStack {
+                
                 RoundedRectangle(cornerRadius: 60)
-                    .fill(randomColor.gradient.opacity(0.5))
+                    .fill(colorName.gradient.opacity(0.5))
                     .ignoresSafeArea()
                     .frame(width: 410, height: 40)
                 Text(habit.title)
@@ -44,11 +47,13 @@ struct HabitDetailView: View {
             }
             
             Text(habit.description)
-                .font(.title3)
-                .frame(width: .infinity, height: 200, alignment: .top)
+                .font(.body.monospaced())
+                .frame(width: 315, height: 300, alignment: .top)
+                .padding()
                 .overlay {
                     RoundedRectangle(cornerRadius: 15)
-                        .stroke(.black.opacity(0.2), lineWidth: 2)
+                        .stroke(colorName, lineWidth: 2)
+                        .fill(colorName.gradient.opacity(0.1))
                 }
                 .padding()
             
